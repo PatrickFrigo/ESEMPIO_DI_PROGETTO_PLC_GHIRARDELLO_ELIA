@@ -1,0 +1,11 @@
+F:\PLC_PROGETTO\CS_NATIVE\CS_Client_Siemens\bin\Debug\CS_Client_Siemens.exe
+F:\PLC_PROGETTO\CS_NATIVE\CS_Client_Siemens\bin\Debug\CS_Client_Siemens.pdb
+F:\PLC_PROGETTO\CS_NATIVE\CS_Client_Siemens\bin\Debug\Sharp7Library.dll
+F:\PLC_PROGETTO\CS_NATIVE\CS_Client_Siemens\obj\Debug\CS_Client_Siemens.csprojAssemblyReference.cache
+F:\PLC_PROGETTO\CS_NATIVE\CS_Client_Siemens\obj\Debug\CS_Client_Siemens.MainForm.resources
+F:\PLC_PROGETTO\CS_NATIVE\CS_Client_Siemens\obj\Debug\CS_Client_Siemens.Properties.Resources.resources
+F:\PLC_PROGETTO\CS_NATIVE\CS_Client_Siemens\obj\Debug\CS_Client_Siemens.csproj.GenerateResource.cache
+F:\PLC_PROGETTO\CS_NATIVE\CS_Client_Siemens\obj\Debug\CS_Client_Siemens.csproj.CoreCompileInputs.cache
+F:\PLC_PROGETTO\CS_NATIVE\CS_Client_Siemens\obj\Debug\CS_Client_Siemens.csproj.CopyComplete
+F:\PLC_PROGETTO\CS_NATIVE\CS_Client_Siemens\obj\Debug\CS_Client_Siemens.exe
+F:\PLC_PROGETTO\CS_NATIVE\CS_Client_Siemens\obj\Debug\CS_Client_Siemens.pdb
