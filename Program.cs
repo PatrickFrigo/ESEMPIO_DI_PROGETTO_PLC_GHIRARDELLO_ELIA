@@ -11,6 +11,7 @@ namespace CS_Client_Siemens
 {
   internal static class Program
   {
+    //  TODO: Chiedere a Caceffo/Bonato cosa caspita è [STAThread]
     [STAThread]
     private static void Main()
     {

@@ -13,6 +13,7 @@ namespace CS_Client_Siemens
 {
   public static class CSerialDeserial
   {
+    //  Aggiorna il file XML che usa come DB
     public static void WriteFile(CDataBlock db)
     {
       XmlSerializer xmlSerializer = new XmlSerializer(typeof (CDataBlock));
@@ -21,6 +22,7 @@ namespace CS_Client_Siemens
       stream.Close();
     }
 
+    //  Legge il file XML che usa come DB
     public static void ReadFile(ref CDataBlock db)
     {
       XmlSerializer xmlSerializer = new XmlSerializer(typeof (CDataBlock));

@@ -16,8 +16,8 @@ namespace CS_Client_Siemens
   {
     private byte[] db1Buffer = new byte[10];
     private byte[] db3Buffer = new byte[10];
-    private CDataBlock db10 = new CDataBlock();
-    private CDataBlock db30 = new CDataBlock();
+    private CDataBlock db10 = new CDataBlock(); //  Database 10 del PLC
+    private CDataBlock db30 = new CDataBlock(); //  Database 30 del PLC
     private IContainer components = (IContainer) null;
     private S7Client Client;
     private int result;
@@ -63,15 +63,17 @@ namespace CS_Client_Siemens
     private void ShowResult(int Result)
     {
       this.lblStatus.Text = this.Client.ErrorText(Result);
-      if (Result != 0)
+      if (Result != 0) //  Se non ci sono errori allora mostra l'execution time
         return;
       this.lblStatus.Text = this.lblStatus.Text + " (" + this.Client.ExecutionTime.ToString() + " ms)";
+      // Pinga il PLC e ritorna il tempo di risposta con .ExecutionTime
     }
 
     public MainForm()
     {
       this.InitializeComponent();
-      this.Client = new S7Client();
+      this.Client = new S7Client(); //  Crea l'oggetto S7Client (PLC)
+      //  Setta i nomi per i database
       this.db10.DBName = "DB10";
       this.db30.DBName = "DB30";
     }
@@ -79,9 +81,11 @@ namespace CS_Client_Siemens
     private void btnConnettere_Click(object sender, EventArgs e)
     {
       int Result = this.Client.ConnectTo(this.txtIndirizzoIP.Text, Convert.ToInt32(this.txtNrRack.Text), Convert.ToInt32(this.txtNrSlot.Text));
+      //  ConnectTo(IP del PLC, Rack del PLC, Slot del PLC)
       this.ShowResult(Result);
       if (Result != 0)
         return;
+      //  Disabilita i vari campi della WFA
       this.lblStatus.Text = this.lblStatus.Text + " PDU Negotiated : " + this.Client.PduSizeNegotiated.ToString();
       this.txtIndirizzoIP.Enabled = false;
       this.txtNrRack.Enabled = false;
@@ -98,6 +102,7 @@ namespace CS_Client_Siemens
     {
       this.Client.Disconnect();
       this.lblStatus.Text = "Disconnected";
+      //  Riabilita i vari campi del WFA
       this.txtIndirizzoIP.Enabled = true;
       this.txtNrRack.Enabled = true;
       this.txtNrSlot.Enabled = true;
@@ -124,11 +129,14 @@ namespace CS_Client_Siemens
         this.ShowResult(this.result);
       try
       {
+        //  Setta la word del DB10 all'int che ha il PLC(?)
+        //  dbBuffer = Array di byte
         this.db10.Word01 = S7.GetIntAt(this.db1Buffer, 0);
         this.db10.Word02 = S7.GetIntAt(this.db1Buffer, 2);
         this.db10.Word03 = S7.GetIntAt(this.db1Buffer, 4);
         this.db10.Word04 = S7.GetIntAt(this.db1Buffer, 6);
         this.db10.Word05 = S7.GetIntAt(this.db1Buffer, 8);
+        //  Setta i vari label/etc... dell'UI
         Label lblValore01 = this.lblValore01;
         short num = this.db10.Word01;
         string str1 = num.ToString();
@@ -149,6 +157,7 @@ namespace CS_Client_Siemens
         num = this.db10.Word05;
         string str5 = num.ToString();
         lblValore05.Text = str5;
+        //  Scrive il db10 nel file XML, noi prob. dovremmo usare il DBSQL
         CSerialDeserial.WriteFile(this.db10);
       }
       catch (Exception ex)
@@ -160,14 +169,20 @@ namespace CS_Client_Siemens
 
     private void timer2_Tick(object sender, EventArgs e)
     {
+      //  Legge il file XML, noi prob. dovremmo leggere dal DBSQL
       CSerialDeserial.ReadFile(ref this.db30);
+      //  Penso che questo db3 sia di appoggio
+      //  Non ho capito perchè ha fatto un nuovo buffer
+      //  TODO: Capire perchè
       this.db3Buffer = new byte[10];
       S7.SetIntAt(this.db3Buffer, 0, this.db30.Word01);
       S7.SetIntAt(this.db3Buffer, 2, this.db30.Word02);
       S7.SetIntAt(this.db3Buffer, 4, this.db30.Word03);
       S7.SetIntAt(this.db3Buffer, 6, this.db30.Word04);
       S7.SetIntAt(this.db3Buffer, 8, this.db30.Word05);
+      //  Scrive nel DB del PLC
       this.result = this.Client.DBWrite(30, 18, this.db3Buffer.Length, this.db3Buffer);
+      //  Visualizza i risultati nell'UI
       if ((uint) this.result > 0U)
         this.ShowResult(this.result);
       this.lblValore31.Text = this.db30.Word01.ToString();
@@ -188,14 +203,15 @@ namespace CS_Client_Siemens
       string str4 = num.ToString();
       lblValore35.Text = str4;
     }
-
+    
     protected override void Dispose(bool disposing)
     {
       if (disposing && this.components != null)
         this.components.Dispose();
       base.Dispose(disposing);
     }
-
+    
+    //  Ignorate InitializeComponent() semplicemente crea l'UI della WFA
     private void InitializeComponent()
     {
       this.components = (IContainer) new Container();

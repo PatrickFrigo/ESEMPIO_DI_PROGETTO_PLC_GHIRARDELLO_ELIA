@@ -8,6 +8,7 @@ using System;
 
 namespace CS_Client_Siemens
 {
+  //  [Serializable] penso sia una proprietà per l'XML
   [Serializable]
   public class CDataBlock : IDataBlock
   {

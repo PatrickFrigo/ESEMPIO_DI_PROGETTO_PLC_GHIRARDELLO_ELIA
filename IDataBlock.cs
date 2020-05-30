@@ -21,3 +21,4 @@ namespace CS_Client_Siemens
     short Word05 { get; set; }
   }
 }
+//  Utile perchè setta il modo in cui un DataBlock del PLC deve essere fatto
